@@ -42,6 +42,7 @@ using namespace boost::assign;
 
 namespace rlf {
 
+using namespace X11_colors;
    namespace {
       tRGBtxt rgblist[] = {
          tRGBtxt( 255, 250, 250,     "snow                      " ),
@@ -795,59 +796,39 @@ namespace rlf {
          tRGBtxt( 139,   0,   0,     "dark red                  " ),
          tRGBtxt( 139,   0,   0,     "DarkRed                   " ),
          tRGBtxt( 144, 238, 144,     "light green               " ),
-         tRGBtxt( 144, 238, 144,     "LightGreen                " ),
+         tRGBtxt( 144, 238, 144,     "LightGreen                " )
 
       };
 
-   }
 
-
-
-   tRGBtxt::tRGBtxt( uint8_t r_, uint8_t g_, uint8_t b_, string const& t_ ): tRGB( r_, g_, b_ ), _txt( t_ ) {
-      boost::trim( _txt );
-   }
-   namespace {
-      struct tRGBKeys {
-         vector<string> s;
-         void operator()( tRGBtxt const& r ) {
-            s.push_back( r.txt() );
          }
-         tRGBKeys(): s() {}
-      };
-      struct tRGBKeyFind {
-         string s;
-         tRGBKeyFind( string sin ): s( sin ) {}
-         bool operator()( tRGBtxt const& r ) {
-            if( r.txt() == s ) {
-               return true;
-            }
+   std::vector<string> tRGBtxt::_keys;
 
-            return false;
-         }
-
-      };
+   tRGBtxt::tRGBtxt( uint8_t r_, uint8_t g_, uint8_t b_, string const& t_ ):
+      tRGB( r_, g_, b_ ), _txt( boost::trim_copy(t_) ) {
+      _keys.push_back(_txt);
 
    }
 
-   vector<string> tRGBtxt::keys() {
-      vector<string> v = for_each( rgb_txt.begin(), rgb_txt.end(), tRGBKeys() ).s;
-      return v;
+   vector<string> const& tRGBtxt::keys() {
+      return _keys;
    }
 
    tRGB tRGBtxt::lookup( string const& k ) {
 
 
 
-      vector<tRGBtxt> ::const_iterator i = find_if( rgb_txt.begin(), rgb_txt.end(), tRGBKeyFind( k ) );
-
-      if( i == rgb_txt.end() ) {
-         return tRGB();
+      for( auto const& rgb: rgb_txt){
+         if( rgb.txt() == k ) {
+            return rgb;
       }
 
-      return *i;
+      }
+      return tRGB();
    }
 
    vector<tRGBtxt> tRGBtxt::rgb_txt( rgblist, rgblist + sizeof( rgblist ) / sizeof( tRGBtxt ) );
+   // list_of compiles very long (C+=11)
 
    //   = boost::assign::list_of
 
@@ -1098,7 +1079,7 @@ namespace rlf {
    //    ( tRGBtxt(255, 222, 173,      "NavajoWhite1              " ) )
    //    ( tRGBtxt(238, 207, 161,      "NavajoWhite2              " ) )
    //    ( tRGBtxt(205, 179, 139,      "NavajoWhite3              " ) )
-   //    ( tRGBtxt(139, 121,   94,     "NavajoWhite4              " ) )
+   //    ( tRGBtxt(139, 121,   94,  NavajoWhite4              " ) )
    //    ( tRGBtxt(255, 250, 205,      "LemonChiffon1             " ) )
    //    ( tRGBtxt(238, 233, 191,      "LemonChiffon2             " ) )
    //    ( tRGBtxt(205, 201, 165,      "LemonChiffon3             " ) )
@@ -1206,132 +1187,132 @@ namespace rlf {
    //    ( tRGBtxt( 84, 255, 159,      "SeaGreen1                 " ) )
    //    ( tRGBtxt( 78, 238, 148,      "SeaGreen2                 " ) )
    //    ( tRGBtxt( 67, 205, 128,      "SeaGreen3                 " ) )
-   //    ( tRGBtxt( 46, 139,   87,     "SeaGreen4                 " ) )
+   //    ( tRGBtxt( 46, 139,   87,  SeaGreen4                 " ) )
    //    ( tRGBtxt(154, 255, 154,      "PaleGreen1                " ) )
    //    ( tRGBtxt(144, 238, 144,      "PaleGreen2                " ) )
    //    ( tRGBtxt(124, 205, 124,      "PaleGreen3                " ) )
-   //    ( tRGBtxt( 84, 139,   84,     "PaleGreen4                " ) )
+   //    ( tRGBtxt( 84, 139,   84,  PaleGreen4                " ) )
    //    ( tRGBtxt(  0, 255, 127,      "SpringGreen1              " ) )
    //    ( tRGBtxt(  0, 238, 118,      "SpringGreen2              " ) )
    //    ( tRGBtxt(  0, 205, 102,      "SpringGreen3              " ) )
-   //    ( tRGBtxt(  0, 139,   69,     "SpringGreen4              " ) )
-   //    ( tRGBtxt(  0, 255,    0,     "green1                    " ) )
-   //    ( tRGBtxt(  0, 238,    0,     "green2                    " ) )
-   //    ( tRGBtxt(  0, 205,    0,     "green3                    " ) )
-   //    ( tRGBtxt(  0, 139,    0,     "green4                    " ) )
-   //    ( tRGBtxt(127, 255,    0,     "chartreuse1               " ) )
-   //    ( tRGBtxt(118, 238,    0,     "chartreuse2               " ) )
-   //    ( tRGBtxt(102, 205,    0,     "chartreuse3               " ) )
-   //    ( tRGBtxt( 69, 139,    0,     "chartreuse4               " ) )
-   //    ( tRGBtxt(192, 255,   62,     "OliveDrab1                " ) )
-   //    ( tRGBtxt(179, 238,   58,     "OliveDrab2                " ) )
-   //    ( tRGBtxt(154, 205,   50,     "OliveDrab3                " ) )
-   //    ( tRGBtxt(105, 139,   34,     "OliveDrab4                " ) )
+   //    ( tRGBtxt(  0, 139,   69,  SpringGreen4              " ) )
+   //    ( tRGBtxt(  0, 255,    0,  green1                    " ) )
+   //    ( tRGBtxt(  0, 238,    0,  green2                    " ) )
+   //    ( tRGBtxt(  0, 205,    0,  green3                    " ) )
+   //    ( tRGBtxt(  0, 139,    0,  green4                    " ) )
+   //    ( tRGBtxt(127, 255,    0,  chartreuse1               " ) )
+   //    ( tRGBtxt(118, 238,    0,  chartreuse2               " ) )
+   //    ( tRGBtxt(102, 205,    0,  chartreuse3               " ) )
+   //    ( tRGBtxt( 69, 139,    0,  chartreuse4               " ) )
+   //    ( tRGBtxt(192, 255,   62,  OliveDrab1                " ) )
+   //    ( tRGBtxt(179, 238,   58,  OliveDrab2                " ) )
+   //    ( tRGBtxt(154, 205,   50,  OliveDrab3                " ) )
+   //    ( tRGBtxt(105, 139,   34,  OliveDrab4                " ) )
    //    ( tRGBtxt(202, 255, 112,      "DarkOliveGreen1           " ) )
    //    ( tRGBtxt(188, 238, 104,      "DarkOliveGreen2           " ) )
-   //    ( tRGBtxt(162, 205,   90,     "DarkOliveGreen3           " ) )
-   //    ( tRGBtxt(110, 139,   61,     "DarkOliveGreen4           " ) )
+   //    ( tRGBtxt(162, 205,   90,  DarkOliveGreen3           " ) )
+   //    ( tRGBtxt(110, 139,   61,  DarkOliveGreen4           " ) )
    //    ( tRGBtxt(255, 246, 143,      "khaki1                    " ) )
    //    ( tRGBtxt(238, 230, 133,      "khaki2                    " ) )
    //    ( tRGBtxt(205, 198, 115,      "khaki3                    " ) )
-   //    ( tRGBtxt(139, 134,   78,     "khaki4                    " ) )
+   //    ( tRGBtxt(139, 134,   78,  khaki4                    " ) )
    //    ( tRGBtxt(255, 236, 139,      "LightGoldenrod1           " ) )
    //    ( tRGBtxt(238, 220, 130,      "LightGoldenrod2           " ) )
    //    ( tRGBtxt(205, 190, 112,      "LightGoldenrod3           " ) )
-   //    ( tRGBtxt(139, 129,   76,     "LightGoldenrod4           " ) )
+   //    ( tRGBtxt(139, 129,   76,  LightGoldenrod4           " ) )
    //    ( tRGBtxt(255, 255, 224,      "LightYellow1              " ) )
    //    ( tRGBtxt(238, 238, 209,      "LightYellow2              " ) )
    //    ( tRGBtxt(205, 205, 180,      "LightYellow3              " ) )
    //    ( tRGBtxt(139, 139, 122,      "LightYellow4              " ) )
-   //    ( tRGBtxt(255, 255,    0,     "yellow1                   " ) )
-   //    ( tRGBtxt(238, 238,    0,     "yellow2                   " ) )
-   //    ( tRGBtxt(205, 205,    0,     "yellow3                   " ) )
-   //    ( tRGBtxt(139, 139,    0,     "yellow4                   " ) )
-   //    ( tRGBtxt(255, 215,    0,     "gold1                     " ) )
-   //    ( tRGBtxt(238, 201,    0,     "gold2                     " ) )
-   //    ( tRGBtxt(205, 173,    0,     "gold3                     " ) )
-   //    ( tRGBtxt(139, 117,    0,     "gold4                     " ) )
-   //    ( tRGBtxt(255, 193,   37,     "goldenrod1                " ) )
-   //    ( tRGBtxt(238, 180,   34,     "goldenrod2                " ) )
-   //    ( tRGBtxt(205, 155,   29,     "goldenrod3                " ) )
-   //    ( tRGBtxt(139, 105,   20,     "goldenrod4                " ) )
-   //    ( tRGBtxt(255, 185,   15,     "DarkGoldenrod1            " ) )
-   //    ( tRGBtxt(238, 173,   14,     "DarkGoldenrod2            " ) )
-   //    ( tRGBtxt(205, 149,   12,     "DarkGoldenrod3            " ) )
-   //    ( tRGBtxt(139, 101,    8,     "DarkGoldenrod4            " ) )
+   //    ( tRGBtxt(255, 255,    0,  yellow1                   " ) )
+   //    ( tRGBtxt(238, 238,    0,  yellow2                   " ) )
+   //    ( tRGBtxt(205, 205,    0,  yellow3                   " ) )
+   //    ( tRGBtxt(139, 139,    0,  yellow4                   " ) )
+   //    ( tRGBtxt(255, 215,    0,  gold1                     " ) )
+   //    ( tRGBtxt(238, 201,    0,  gold2                     " ) )
+   //    ( tRGBtxt(205, 173,    0,  gold3                     " ) )
+   //    ( tRGBtxt(139, 117,    0,  gold4                     " ) )
+   //    ( tRGBtxt(255, 193,   37,  goldenrod1                " ) )
+   //    ( tRGBtxt(238, 180,   34,  goldenrod2                " ) )
+   //    ( tRGBtxt(205, 155,   29,  goldenrod3                " ) )
+   //    ( tRGBtxt(139, 105,   20,  goldenrod4                " ) )
+   //    ( tRGBtxt(255, 185,   15,  DarkGoldenrod1            " ) )
+   //    ( tRGBtxt(238, 173,   14,  DarkGoldenrod2            " ) )
+   //    ( tRGBtxt(205, 149,   12,  DarkGoldenrod3            " ) )
+   //    ( tRGBtxt(139, 101,    8,  DarkGoldenrod4            " ) )
    //    ( tRGBtxt(255, 193, 193,      "RosyBrown1                " ) )
    //    ( tRGBtxt(238, 180, 180,      "RosyBrown2                " ) )
    //    ( tRGBtxt(205, 155, 155,      "RosyBrown3                " ) )
    //    ( tRGBtxt(139, 105, 105,      "RosyBrown4                " ) )
    //    ( tRGBtxt(255, 106, 106,      "IndianRed1                " ) )
-   //    ( tRGBtxt(238,  99,   99,     "IndianRed2                " ) )
-   //    ( tRGBtxt(205,  85,   85,     "IndianRed3                " ) )
-   //    ( tRGBtxt(139,  58,   58,     "IndianRed4                " ) )
-   //    ( tRGBtxt(255, 130,   71,     "sienna1                   " ) )
-   //    ( tRGBtxt(238, 121,   66,     "sienna2                   " ) )
-   //    ( tRGBtxt(205, 104,   57,     "sienna3                   " ) )
-   //    ( tRGBtxt(139,  71,   38,     "sienna4                   " ) )
+   //    ( tRGBtxt(238,  99,   99,  IndianRed2                " ) )
+   //    ( tRGBtxt(205,  85,   85,  IndianRed3                " ) )
+   //    ( tRGBtxt(139,  58,   58,  IndianRed4                " ) )
+   //    ( tRGBtxt(255, 130,   71,  sienna1                   " ) )
+   //    ( tRGBtxt(238, 121,   66,  sienna2                   " ) )
+   //    ( tRGBtxt(205, 104,   57,  sienna3                   " ) )
+   //    ( tRGBtxt(139,  71,   38,  sienna4                   " ) )
    //    ( tRGBtxt(255, 211, 155,      "burlywood1                " ) )
    //    ( tRGBtxt(238, 197, 145,      "burlywood2                " ) )
    //    ( tRGBtxt(205, 170, 125,      "burlywood3                " ) )
-   //    ( tRGBtxt(139, 115,   85,     "burlywood4                " ) )
+   //    ( tRGBtxt(139, 115,   85,  burlywood4                " ) )
    //    ( tRGBtxt(255, 231, 186,      "wheat1                    " ) )
    //    ( tRGBtxt(238, 216, 174,      "wheat2                    " ) )
    //    ( tRGBtxt(205, 186, 150,      "wheat3                    " ) )
    //    ( tRGBtxt(139, 126, 102,      "wheat4                    " ) )
-   //    ( tRGBtxt(255, 165,   79,     "tan1                      " ) )
-   //    ( tRGBtxt(238, 154,   73,     "tan2                      " ) )
-   //    ( tRGBtxt(205, 133,   63,     "tan3                      " ) )
-   //    ( tRGBtxt(139,  90,   43,     "tan4                      " ) )
-   //    ( tRGBtxt(255, 127,   36,     "chocolate1                " ) )
-   //    ( tRGBtxt(238, 118,   33,     "chocolate2                " ) )
-   //    ( tRGBtxt(205, 102,   29,     "chocolate3                " ) )
-   //    ( tRGBtxt(139,  69,   19,     "chocolate4                " ) )
-   //    ( tRGBtxt(255,  48,   48,     "firebrick1                " ) )
-   //    ( tRGBtxt(238,  44,   44,     "firebrick2                " ) )
-   //    ( tRGBtxt(205,  38,   38,     "firebrick3                " ) )
-   //    ( tRGBtxt(139,  26,   26,     "firebrick4                " ) )
-   //    ( tRGBtxt(255,  64,   64,     "brown1                    " ) )
-   //    ( tRGBtxt(238,  59,   59,     "brown2                    " ) )
-   //    ( tRGBtxt(205,  51,   51,     "brown3                    " ) )
-   //    ( tRGBtxt(139,  35,   35,     "brown4                    " ) )
+   //    ( tRGBtxt(255, 165,   79,  tan1                      " ) )
+   //    ( tRGBtxt(238, 154,   73,  tan2                      " ) )
+   //    ( tRGBtxt(205, 133,   63,  tan3                      " ) )
+   //    ( tRGBtxt(139,  90,   43,  tan4                      " ) )
+   //    ( tRGBtxt(255, 127,   36,  chocolate1                " ) )
+   //    ( tRGBtxt(238, 118,   33,  chocolate2                " ) )
+   //    ( tRGBtxt(205, 102,   29,  chocolate3                " ) )
+   //    ( tRGBtxt(139,  69,   19,  chocolate4                " ) )
+   //    ( tRGBtxt(255,  48,   48,  firebrick1                " ) )
+   //    ( tRGBtxt(238,  44,   44,  firebrick2                " ) )
+   //    ( tRGBtxt(205,  38,   38,  firebrick3                " ) )
+   //    ( tRGBtxt(139,  26,   26,  firebrick4                " ) )
+   //    ( tRGBtxt(255,  64,   64,  brown1                    " ) )
+   //    ( tRGBtxt(238,  59,   59,  brown2                    " ) )
+   //    ( tRGBtxt(205,  51,   51,  brown3                    " ) )
+   //    ( tRGBtxt(139,  35,   35,  brown4                    " ) )
    //    ( tRGBtxt(255, 140, 105,      "salmon1                   " ) )
-   //    ( tRGBtxt(238, 130,   98,     "salmon2                   " ) )
-   //    ( tRGBtxt(205, 112,   84,     "salmon3                   " ) )
-   //    ( tRGBtxt(139,  76,   57,     "salmon4                   " ) )
+   //    ( tRGBtxt(238, 130,   98,  salmon2                   " ) )
+   //    ( tRGBtxt(205, 112,   84,  salmon3                   " ) )
+   //    ( tRGBtxt(139,  76,   57,  salmon4                   " ) )
    //    ( tRGBtxt(255, 160, 122,      "LightSalmon1              " ) )
    //    ( tRGBtxt(238, 149, 114,      "LightSalmon2              " ) )
-   //    ( tRGBtxt(205, 129,   98,     "LightSalmon3              " ) )
-   //    ( tRGBtxt(139,  87,   66,     "LightSalmon4              " ) )
-   //    ( tRGBtxt(255, 165,    0,     "orange1                   " ) )
-   //    ( tRGBtxt(238, 154,    0,     "orange2                   " ) )
-   //    ( tRGBtxt(205, 133,    0,     "orange3                   " ) )
-   //    ( tRGBtxt(139,  90,    0,     "orange4                   " ) )
-   //    ( tRGBtxt(255, 127,    0,     "DarkOrange1               " ) )
-   //    ( tRGBtxt(238, 118,    0,     "DarkOrange2               " ) )
-   //    ( tRGBtxt(205, 102,    0,     "DarkOrange3               " ) )
-   //    ( tRGBtxt(139,  69,    0,     "DarkOrange4               " ) )
-   //    ( tRGBtxt(255, 114,   86,     "coral1                    " ) )
-   //    ( tRGBtxt(238, 106,   80,     "coral2                    " ) )
-   //    ( tRGBtxt(205,  91,   69,     "coral3                    " ) )
-   //    ( tRGBtxt(139,  62,   47,     "coral4                    " ) )
-   //    ( tRGBtxt(255,  99,   71,     "tomato1                   " ) )
-   //    ( tRGBtxt(238,  92,   66,     "tomato2                   " ) )
-   //    ( tRGBtxt(205,  79,   57,     "tomato3                   " ) )
-   //    ( tRGBtxt(139,  54,   38,     "tomato4                   " ) )
-   //    ( tRGBtxt(255,  69,    0,     "OrangeRed1                " ) )
-   //    ( tRGBtxt(238,  64,    0,     "OrangeRed2                " ) )
-   //    ( tRGBtxt(205,  55,    0,     "OrangeRed3                " ) )
-   //    ( tRGBtxt(139,  37,    0,     "OrangeRed4                " ) )
-   //    ( tRGBtxt(255,   0,    0,     "red1                      " ) )
-   //    ( tRGBtxt(238,   0,    0,     "red2                      " ) )
-   //    ( tRGBtxt(205,   0,    0,     "red3                      " ) )
-   //    ( tRGBtxt(139,   0,    0,     "red4                      " ) )
+   //    ( tRGBtxt(205, 129,   98,  LightSalmon3              " ) )
+   //    ( tRGBtxt(139,  87,   66,  LightSalmon4              " ) )
+   //    ( tRGBtxt(255, 165,    0,  orange1                   " ) )
+   //    ( tRGBtxt(238, 154,    0,  orange2                   " ) )
+   //    ( tRGBtxt(205, 133,    0,  orange3                   " ) )
+   //    ( tRGBtxt(139,  90,    0,  orange4                   " ) )
+   //    ( tRGBtxt(255, 127,    0,  DarkOrange1               " ) )
+   //    ( tRGBtxt(238, 118,    0,  DarkOrange2               " ) )
+   //    ( tRGBtxt(205, 102,    0,  DarkOrange3               " ) )
+   //    ( tRGBtxt(139,  69,    0,  DarkOrange4               " ) )
+   //    ( tRGBtxt(255, 114,   86,  coral1                    " ) )
+   //    ( tRGBtxt(238, 106,   80,  coral2                    " ) )
+   //    ( tRGBtxt(205,  91,   69,  coral3                    " ) )
+   //    ( tRGBtxt(139,  62,   47,  coral4                    " ) )
+   //    ( tRGBtxt(255,  99,   71,  tomato1                   " ) )
+   //    ( tRGBtxt(238,  92,   66,  tomato2                   " ) )
+   //    ( tRGBtxt(205,  79,   57,  tomato3                   " ) )
+   //    ( tRGBtxt(139,  54,   38,  tomato4                   " ) )
+   //    ( tRGBtxt(255,  69,    0,  OrangeRed1                " ) )
+   //    ( tRGBtxt(238,  64,    0,  OrangeRed2                " ) )
+   //    ( tRGBtxt(205,  55,    0,  OrangeRed3                " ) )
+   //    ( tRGBtxt(139,  37,    0,  OrangeRed4                " ) )
+   //    ( tRGBtxt(255,   0,    0,  red1                      " ) )
+   //    ( tRGBtxt(238,   0,    0,  red2                      " ) )
+   //    ( tRGBtxt(205,   0,    0,  red3                      " ) )
+   //    ( tRGBtxt(139,   0,    0,  red4                      " ) )
    //    ( tRGBtxt(215,   7,  81,      "DebianRed                 " ) )
    //    ( tRGBtxt(255,  20, 147,      "DeepPink1                 " ) )
    //    ( tRGBtxt(238,  18, 137,      "DeepPink2                 " ) )
    //    ( tRGBtxt(205,  16, 118,      "DeepPink3                 " ) )
-   //    ( tRGBtxt(139,  10,   80,     "DeepPink4                 " ) )
+   //    ( tRGBtxt(139,  10,   80,  DeepPink4                 " ) )
    //    ( tRGBtxt(255, 110, 180,      "HotPink1                  " ) )
    //    ( tRGBtxt(238, 106, 167,      "HotPink2                  " ) )
    //    ( tRGBtxt(205,  96, 144,      "HotPink3                  " ) )
@@ -1347,15 +1328,15 @@ namespace rlf {
    //    ( tRGBtxt(255, 130, 171,      "PaleVioletRed1            " ) )
    //    ( tRGBtxt(238, 121, 159,      "PaleVioletRed2            " ) )
    //    ( tRGBtxt(205, 104, 137,      "PaleVioletRed3            " ) )
-   //    ( tRGBtxt(139,  71,   93,     "PaleVioletRed4            " ) )
+   //    ( tRGBtxt(139,  71,   93,  PaleVioletRed4            " ) )
    //    ( tRGBtxt(255,  52, 179,      "maroon1                   " ) )
    //    ( tRGBtxt(238,  48, 167,      "maroon2                   " ) )
    //    ( tRGBtxt(205,  41, 144,      "maroon3                   " ) )
-   //    ( tRGBtxt(139,  28,   98,     "maroon4                   " ) )
+   //    ( tRGBtxt(139,  28,   98,  maroon4                   " ) )
    //    ( tRGBtxt(255,  62, 150,      "VioletRed1                " ) )
    //    ( tRGBtxt(238,  58, 140,      "VioletRed2                " ) )
    //    ( tRGBtxt(205,  50, 120,      "VioletRed3                " ) )
-   //    ( tRGBtxt(139,  34,   82,     "VioletRed4                " ) )
+   //    ( tRGBtxt(139,  34,   82,  VioletRed4                " ) )
    //    ( tRGBtxt(255,   0, 255,      "magenta1                  " ) )
    //    ( tRGBtxt(238,   0, 238,      "magenta2                  " ) )
    //    ( tRGBtxt(205,   0, 205,      "magenta3                  " ) )

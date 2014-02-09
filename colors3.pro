@@ -15,7 +15,7 @@ QMAKE_CXXFLAGS_DEBUG += -Wextra
 QMAKE_CXXFLAGS_DEBUG += -Wunused-parameter
 QMAKE_CXXFLAGS_DEBUG -= -Wwrite-strings
 QMAKE_CXXFLAGS_DEBUG -= -Wunused-variable
-QMAKE_CXXFLAGS_DEBUG += -Weffc++
+#QMAKE_CXXFLAGS_DEBUG += -Weffc++
 
 QMAKE_CXXFLAGS_RELEASE += -O2
 QMAKE_CXXFLAGS_RELEASE += -std=c++0x
@@ -26,7 +26,7 @@ QMAKE_CXXFLAGS_RELEASE += -Wextra
 QMAKE_CXXFLAGS_RELEASE += -Wunused-parameter
 QMAKE_CXXFLAGS_RELEASE -= -Wwrite-strings
 QMAKE_CXXFLAGS_RELEASE -= -Wunused-variable
-QMAKE_CXXFLAGS_RELEASE += -Weffc++
+#QMAKE_CXXFLAGS_RELEASE += -Weffc++
 
 
 SOURCES += src/main.cpp \
@@ -36,4 +36,8 @@ HEADERS += \
     src/rimg_rgb_names.h \
     src/rimg_typedefs.h \
     src/rimg_rgb_bgra_types.h
+
+OTHER_FILES += \
+    lgpl-3.0.txt \
+    README.md
 

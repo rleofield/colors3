@@ -53,7 +53,7 @@ namespace rlf {
       tRGB(): _r( 0 ), _g( 0 ), _b( 0 ), _a( 255 ) {}
       tRGB( uint8_t r_, uint8_t g_, uint8_t b_ ): _r( r_ ), _g( g_ ), _b( b_ ), _a( 255 ) {}
       tRGB( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ ): _r( r_ ), _g( g_ ), _b( b_ ), _a( a_ ) {}
-      virtual ~tRGB() {}
+      ~tRGB() {}
 
       bool operator==( const tRGB& rgb )const {
          return rgb._r == _r && rgb._g == _g && rgb._b == _b && rgb._a == _a;
@@ -119,6 +119,7 @@ namespace rlf {
 
    class tRGBtxt: public tRGB {
       string _txt;
+      static std::vector<string> _keys;
    public:
       tRGBtxt( uint8_t r, uint8_t g, uint8_t b, string const& t );
       string txt() const {
@@ -128,9 +129,9 @@ namespace rlf {
       static vector<tRGBtxt> const& list() {
          return rgb_txt;
       }
-      static vector<string> keys();
+      static vector<string> const& keys();
       static tRGB lookup( string const& k );
-      virtual ~tRGBtxt() {}
+      ~tRGBtxt() {}
    };
 
 

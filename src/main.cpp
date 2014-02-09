@@ -35,22 +35,35 @@ namespace {
 
    void demo_rgb( ) {
 
+      std::vector<string> keys = tRGBtxt::keys();
+      for( auto k: tRGBtxt::keys()){
+         std::cout << k << std::endl;
 
+      }
+
+      std::cout << " lookup GreenYellow" << std::endl;
       tRGB rgb = tRGBtxt::lookup( X11_colors::GreenYellow );
 
+      std::cout << " as open gl float" << std::endl;
 
-      vector<string> keys = tRGBtxt::keys();
-
-      rlf::uint32_t rr = rgb.r();
       std::cout << rgb.gl_r() << std::endl;
       std::cout << rgb.gl_g() << std::endl;
       std::cout << rgb.gl_b() << std::endl;
 
+      std::cout << " as int" << std::endl;
+
+      uint32_t rr = rgb.r();
       std::cout << rr << std::endl;
+      std::cout << static_cast<uint16_t>(rgb.g()) << std::endl;
+      std::cout << static_cast<uint32_t>(rgb.b()) << std::endl;
+
+      std::cout << " as printable char" << std::endl;
+      std::cout << rgb.r() << std::endl;
       std::cout << rgb.g() << std::endl;
       std::cout << rgb.b() << std::endl;
 
 
+      std::cout << std::endl;
 
 
    }

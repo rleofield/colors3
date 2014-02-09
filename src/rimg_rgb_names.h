@@ -39,6 +39,7 @@ using std::string;
 
 namespace X11_colors{
 
+   const std::string snow                  = "snow";
    const std::string ghost_white           = "ghost white";
    const std::string GhostWhite            = "GhostWhite ";
    const std::string white_smoke           = "white smoke";
