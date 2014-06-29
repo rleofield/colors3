@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <iomanip>
-
+// includes
 
 #include "rimg_rgb_bgra_types.h"
 #include "rimg_rgb_names.h"
