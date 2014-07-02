@@ -41,7 +41,6 @@ using namespace std;
 using namespace boost::assign;
 
 namespace rlf {
-
 using namespace X11_colors;
    namespace {
       tRGBtxt rgblist[] = {
@@ -801,13 +800,13 @@ using namespace X11_colors;
       };
 
 
-         }
+   }
+
    std::vector<string> tRGBtxt::_keys;
 
    tRGBtxt::tRGBtxt( uint8_t r_, uint8_t g_, uint8_t b_, string const& t_ ):
       tRGB( r_, g_, b_ ), _txt( boost::trim_copy(t_) ) {
       _keys.push_back(_txt);
-
    }
 
    vector<string> const& tRGBtxt::keys() {
@@ -815,19 +814,16 @@ using namespace X11_colors;
    }
 
    tRGB tRGBtxt::lookup( string const& k ) {
-
-
-
       for( auto const& rgb: rgb_txt){
          if( rgb.txt() == k ) {
             return rgb;
-      }
-
+         }
       }
       return tRGB();
    }
 
    vector<tRGBtxt> tRGBtxt::rgb_txt( rgblist, rgblist + sizeof( rgblist ) / sizeof( tRGBtxt ) );
+
    // list_of compiles very long (C+=11)
 
    //   = boost::assign::list_of

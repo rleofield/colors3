@@ -798,3 +798,4 @@ namespace X11_colors{
 #endif
 
 //EOF
+
