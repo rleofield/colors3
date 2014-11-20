@@ -34,7 +34,6 @@ SOURCES += src/main.cpp \
 
 HEADERS += \
     src/rimg_rgb_names.h \
-    src/rimg_typedefs.h \
     src/rimg_rgb_bgra_types.h
 
 OTHER_FILES += \
