@@ -29,6 +29,7 @@ File: tRGB_BGRA.h
 #include <vector>
 #include <algorithm>
 
+#include "rimg_typedefs.h"
 
 using std::string;
 using std::vector;

@@ -36,7 +36,8 @@ namespace {
    void demo_rgb( ) {
 
       std::vector<string> keys = tRGBtxt::keys();
-      for( auto k: tRGBtxt::keys()){
+
+      for( auto k : tRGBtxt::keys() ) {
          std::cout << k << std::endl;
 
       }
@@ -54,8 +55,8 @@ namespace {
 
       uint32_t rr = rgb.r();
       std::cout << rr << std::endl;
-      std::cout << static_cast<uint16_t>(rgb.g()) << std::endl;
-      std::cout << static_cast<uint32_t>(rgb.b()) << std::endl;
+      std::cout << static_cast<uint16_t>( rgb.g() ) << std::endl;
+      std::cout << static_cast<uint32_t>( rgb.b() ) << std::endl;
 
       std::cout << " as printable char" << std::endl;
       std::cout << rgb.r() << std::endl;

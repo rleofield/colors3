@@ -37,7 +37,7 @@ from /etc/X11/rgb.txt
 
 using std::string;
 
-namespace X11_colors{
+namespace X11_colors {
 
    const std::string snow                  = "snow";
    const std::string ghost_white           = "ghost white";
